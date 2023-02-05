@@ -54,8 +54,6 @@ def is_document(filename: str) -> bool:
 
 
 class MyEventHandler(FileSystemEventHandler):
-
-        
     
     path = "/home/victorchiaka/Downloads/"
 
