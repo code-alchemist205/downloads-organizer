@@ -110,14 +110,17 @@ class MyEventHandler(FileSystemEventHandler):
                         logging.warning(
                             f"file {path + filename} does not exist")
 
-                # elif is_image(filename):
-                #     try:
-                #         shutil.move(path + filename,
-                #                     "/home/victorchiaka/Pictures/")
-                #     except FileNotFoundError:
-                #         logging.warning(
-                #             f"file {path + filename} does not exist")
-
+                elif is_image(filename):
+                    try:
+                        shutil.move(path + filename,
+                                    "/home/victorchiaka/Pictures/")
+                    except FileNotFoundError:
+                        logging.warning(
+                            f"file {path + filename} does not exist")
+                else:
+                    logging.warning(
+                        f"this file {filename} does not have a folder for the filetype"
+                    )
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO,
