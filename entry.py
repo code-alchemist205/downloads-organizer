@@ -11,17 +11,18 @@
 import os
 import time
 import shutil
+from watchdog.events import FileSystemEventHandler
 import logging
 from watchdog.observers import Observer
 from watchdog.events import LoggingEventHandler
-from watchdog.events import FileSystemEventHandler
 
 music_extensions = [
     ".mp3", ".wav", ".wma", ".aac", ".flac", ".ogg", ".pcm", ".aiff", ".alac"]
 video_extensions = [".mp4", ".mov", ".avi", ".avchid",
                     ".flv", ".f4v", ".swf", ".mkv", ".webm", ".mpeg-2"]
 ebook_extensions = [".pdf", ".epub"]
-image_extensions = [".svg", ".gif", ".jpeg", ".jpg" ".png"]
+# image_extensions = [".svg", ".gif", ".jpeg", ".jpg", ".png"]
+image_extensions = [".jpg", ".png",".svg", ".gif", ".jpeg"]
 documents_extensions = [".ppt", ".docx", ".xls", ".md", ".html", ".xml"]
 
 
@@ -45,6 +46,7 @@ def is_image(filename: str) -> bool:
         return filename.endswith(extension)
 
 
+
 def is_document(filename: str) -> bool:
     for extension in documents_extensions:
         return filename.endswith(extension)
@@ -54,10 +56,10 @@ def is_document(filename: str) -> bool:
 
 
 class MyEventHandler(FileSystemEventHandler):
-    
+
     path = "/home/victorchiaka/Downloads/"
 
-    def is_download_completed(path : str, filename : str) -> bool:
+    def is_download_completed(path: str, filename: str) -> bool:
         file_size = -1
         while True:
             file_size = os.stat(path + filename)
@@ -67,20 +69,20 @@ class MyEventHandler(FileSystemEventHandler):
             else:
                 return False
 
-    def on_modified(self, event):
-        for root, dirs, files in os.walk(path):
-            for filename in files:
-                file_size = -1
-                while True:
-                    file_size = os.stat(path + filename).st_size
-                    time.sleep(2)
-                    if file_size == file_size:
-                        return True
-                    else:
-                        return False
-            
+    # def on_modified(self, event):
+    #     for root, dirs, files in os.walk(path):
+    #         for filename in files:
+    #             file_size = -1
+    #             while True:
+    #                 file_size = os.stat(path + filename).st_size
+    #                 time.sleep(2)
+    #                 if file_size == file_size:
+    #                     return True
+    #                 else:
+    #                     return False
 
     def on_created(self, event):
+        
         for root, dirs, files in os.walk(path):
             for filename in files:
 
@@ -91,21 +93,13 @@ class MyEventHandler(FileSystemEventHandler):
                     except FileNotFoundError:
                         logging.warning(
                             f"file {path + filename} does not exist")
-                        
+
                 # Work on this later, let's fix the file download bug
-                
+
                 elif is_video(filename):
                     try:
                         shutil.move(path + filename,
                                     "/home/victorchiaka/Videos/")
-                    except FileNotFoundError:
-                        logging.warning(
-                            f"file {path + filename} does not exist")
-
-                elif is_ebook(filename):
-                    try:
-                        shutil.move(path + filename,
-                                    "/home/victorchiaka/my-books/")
                     except FileNotFoundError:
                         logging.warning(
                             f"file {path + filename} does not exist")
@@ -117,10 +111,20 @@ class MyEventHandler(FileSystemEventHandler):
                     except FileNotFoundError:
                         logging.warning(
                             f"file {path + filename} does not exist")
-                else:
-                    logging.warning(
-                        f"this file {filename} does not have a folder for the filetype"
-                    )
+                        
+                elif is_ebook(filename):
+                    try:
+                        shutil.move(path + filename,
+                                    "/home/victorchiaka/my-books/")
+                    except FileNotFoundError:
+                        logging.warning(
+                            f"file {path + filename} does not exist")
+
+                # else:
+                #     logging.info(
+                #         f"this file {filename} does not have a folder for the filetype"
+                #     )
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO,
