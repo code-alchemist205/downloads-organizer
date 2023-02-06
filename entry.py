@@ -103,7 +103,7 @@ class MyEventHandler(FileSystemEventHandler):
                         
                 elif is_ebook(filename):
                     try:
-                        shutil.move(f"{path}/{filename}",
+                        shutil.move(f"{path}{filename}",
                                     "/home/victorchiaka/my-books/")
                     except FileNotFoundError:
                         print(f"The {filename} file does does not exist")
