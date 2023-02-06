@@ -82,28 +82,28 @@ class MyEventHandler(FileSystemEventHandler):
 
                 if is_music(filename):
                     try:
-                        shutil.move(path + filename,
+                        shutil.move(f"{path}/{filename}",
                                     "/home/victorchiaka/Music/")
                     except FileNotFoundError:
                         print(f"The {filename} file does does not exist")
 
                 elif is_video(filename):
                     try:
-                        shutil.move(path + filename,
+                        shutil.move(f"{path}/{filename}",
                                     "/home/victorchiaka/Videos/")
                     except FileNotFoundError:
                         print(f"The {filename} file does does not exist")
 
                 elif is_image(filename):
                     try:
-                        shutil.move(path + filename,
+                        shutil.move(f"{path}{filename}",
                                     "/home/victorchiaka/Pictures/")
                     except FileNotFoundError:
                         print(f"The {filename} file does does not exist")
                         
                 elif is_ebook(filename):
                     try:
-                        shutil.move(path + filename,
+                        shutil.move(f"{path}/{filename}",
                                     "/home/victorchiaka/my-books/")
                     except FileNotFoundError:
                         print(f"The {filename} file does does not exist")
