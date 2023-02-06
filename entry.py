@@ -68,19 +68,7 @@ class MyEventHandler(FileSystemEventHandler):
                 return True
             else:
                 return False
-
-    # def on_modified(self, event):
-    #     for root, dirs, files in os.walk(path):
-    #         for filename in files:
-    #             file_size = -1
-    #             while True:
-    #                 file_size = os.stat(path + filename).st_size
-    #                 time.sleep(2)
-    #                 if file_size == file_size:
-    #                     return True
-    #                 else:
-    #                     return False
-
+            
     def on_created(self, event):
         
         for root, dirs, files in os.walk(path):
@@ -93,8 +81,6 @@ class MyEventHandler(FileSystemEventHandler):
                     except FileNotFoundError:
                         logging.warning(
                             f"file {path + filename} does not exist")
-
-                # Work on this later, let's fix the file download bug
 
                 elif is_video(filename):
                     try:
