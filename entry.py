@@ -21,7 +21,7 @@ def is_music(filename: str) -> bool:
             return True
         else:
             continue
-    return
+    return False
 
 
 def is_video(filename: str) -> bool:
@@ -30,7 +30,7 @@ def is_video(filename: str) -> bool:
             return True
         else:
             continue
-    return
+    return False
 
 
 def is_ebook(filename: str) -> bool:
@@ -39,7 +39,7 @@ def is_ebook(filename: str) -> bool:
             return True
         else:
             continue
-    return
+    return False
 
 
 def is_image(filename: str) -> bool:
@@ -48,8 +48,7 @@ def is_image(filename: str) -> bool:
             return True
         else:
             continue
-    return
-
+    return False
 
 
 def is_document(filename: str) -> bool:
@@ -58,15 +57,15 @@ def is_document(filename: str) -> bool:
             return True
         else:
             continue
-    return
+    return False
 
 
 class MyEventHandler(FileSystemEventHandler):
 
     path = "/home/victorchiaka/Downloads/"
 
-    def is_download_completed(path: str, filename: str) -> bool:
-        file_size = -1
+    def is_download_completed(path: str, filename: str) -> bool:  # type:ignore
+        # file_size = -1
         while True:
             file_size = os.stat(path + filename)
             time.sleep(2)
@@ -74,8 +73,7 @@ class MyEventHandler(FileSystemEventHandler):
                 return True
             else:
                 return False
-            
-            
+
     def on_created(self, event):
         for root, dirs, files in os.walk(path):
             for filename in files:
@@ -100,7 +98,7 @@ class MyEventHandler(FileSystemEventHandler):
                                     "/home/victorchiaka/Pictures/")
                     except FileNotFoundError:
                         print(f"The {filename} file does does not exist")
-                        
+
                 elif is_ebook(filename):
                     try:
                         shutil.move(f"{path}{filename}",
